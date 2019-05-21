@@ -827,7 +827,7 @@ ax2.set_ylim([0,14])
 name_plot_2="histogram_art_thefts_objects_median.pdf"
 plt.savefig(name_plot_2,bbox_inches='tight')    
 ##########################################################################################
-#Plot No.objects per theft
+#Plot No.objects per theft (<3 and <2 objects)
 ##########################################################################################  
 Ipsg = data_out['Ipsg Reference']
 cas=[]
@@ -891,7 +891,7 @@ ax.set_title("Art work stolen per large-scale art theft (2008-2019)")
 name_plot_2="pie_art_thefts_objetos.pdf"
 #plt.savefig(name_plot_2,bbox_inches='tight')
 ##########################################################################################  
-#Histogram objects stolen per art theft
+#Histogram objects stolen per art theft (<3 and < 2 objects)
 ##########################################################################################  
 matplotlib.rcParams.update({'font.size': 22})        
 fig3 = plt.figure(figsize=(12,12))  
@@ -917,12 +917,69 @@ ax2.set_xlim([1.5,20])
 name_plot_2="histogram_art_thefts_num_objects.pdf"
 #plt.savefig(name_plot_2,bbox_inches='tight')
 ##########################################################################################  
+#Pie objects stolen per art theft (ONLY >3
+##########################################################################################  
+objects =[ robberies[i]['Number of Objects'] for i in range(len(robberies))]   
+
+counter=collections.Counter(objects)
+objs=counter.keys()
+
+obj_3_4=[]
+obj_5_10=[]
+obj_11_20=[]
+obj_21_50=[]
+obj_51_99=[]
+obj_100=[]
+
+for i in objs:
+    if i==3 or i==4:
+        obj_3_4.append(counter[i])
+    elif i>4 and i<11:
+        obj_5_10.append(counter[i])        
+    elif i>10 and i<21:
+        obj_11_20.append(counter[i])        
+    elif i>20 and i<51:
+        obj_21_50.append(counter[i])
+    elif i>50 and i<100:
+        obj_51_99.append(counter[i])
+    elif i>99:
+        obj_100.append(counter[i])                
+    else:
+        print('Algo anda mal')
+
+dara=[round(sum(obj_3_4)/2.35,0),round(sum(obj_5_10)/2.35,0),round(sum(obj_11_20)/2.35,0),round(sum(obj_21_50)/2.35,0),round(sum(obj_51_99)/2.35,0),round(sum(obj_100)/2.35,0)]
+recipe=['3-4','5-10','11-20','21-50','51-99','>100']
+
+for i in range(len(dara)):
+    print(recipe[i]+' is '+str(round(dara[i]*100/sum(dara),0)))
+    
+matplotlib.rcParams.update({'font.size': 22}) 
+fig, ax = plt.subplots(figsize=(6, 3), subplot_kw=dict(aspect="equal"))
+wedges, texts = ax.pie(dara, wedgeprops=dict(width=0.5), startangle=-40)
+
+bbox_props = dict(boxstyle="square,pad=0.3", fc="w", ec="k", lw=0.72)
+kw = dict(xycoords='data', textcoords='data', arrowprops=dict(arrowstyle="-"),
+          bbox=bbox_props, zorder=0, va="center")
+
+for i, p in enumerate(wedges):
+    ang = (p.theta2 - p.theta1)/2. + p.theta1
+    y = np.sin(np.deg2rad(ang))
+    x = np.cos(np.deg2rad(ang))
+    horizontalalignment = {-1: "right", 1: "left"}[int(np.sign(x))]
+    connectionstyle = "angle,angleA=0,angleB={}".format(ang)
+    kw["arrowprops"].update({"connectionstyle": connectionstyle})
+    ax.annotate(recipe[i], xy=(x, y), xytext=(1.35*np.sign(x), 1.4*y),
+                 horizontalalignment=horizontalalignment, **kw)
+
+name_plot="pie_art_thefts_objetos+3.pdf"
+#plt.savefig(name_plot,bbox_inches='tight')     
+##########################################################################################  
 #Pie objects stolen per art theft: countries
 ##########################################################################################  
 robs =[]
 for i in range(len(robberies)):     
     aa=robberies[i]['Number of Objects']
-    if aa>10:
+    if aa>20:
         robs.append(robberies[i])
 
 Country =[ robs[i]['Country'] for i in range(len(robs))]
@@ -962,7 +1019,7 @@ for i, p in enumerate(wedges):
     ax.annotate(recipe[i], xy=(x, y), xytext=(1.35*np.sign(x), 1.4*y),
                  horizontalalignment=horizontalalignment, **kw)
 
-name_plot="pie_art_thefts_objetos+100_countries.pdf"
+name_plot="pie_art_thefts_objetos+21_countries.pdf"
 #plt.savefig(name_plot,bbox_inches='tight')                             
 ##########################################################################################  
 #Pie objects stolen per art thef: places   
