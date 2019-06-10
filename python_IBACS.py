@@ -287,11 +287,11 @@ for i in range(len(citi)):
     map_out['name'].append(names)
                 
 datan = pd.DataFrame(data=map_out)
-m = folium.Map(location=[20, 0], tiles="Mapbox Bright", zoom_start=2)
+m = folium.Map(location=[20, 0], tiles="OpenStreetMap", zoom_start=2)
 for i in range(0,len(datan)):
     folium.Marker([datan.iloc[i]['lon'], datan.iloc[i]['lat']], popup=datan.iloc[i]['name']).add_to(m)
     #folium.Marker([datan.iloc[i]['lon'], datan.iloc[i]['lat']]).add_to(m)
-m.save('plots/art_map_cities_final2_2.html')   
+m.save('plots/art_map_cities_final2_9.html')   
 
 ##########################################################################################
 #Histograms by cities
