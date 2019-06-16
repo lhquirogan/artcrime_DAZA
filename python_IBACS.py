@@ -585,11 +585,16 @@ name_plot_2="plots/pie_art_thefts_objects3.pdf"
 ##########################################################################################
 #Pie objects per country
 ########################################################################################## 
-eu=['Austria','Belgium','Bulgaria','Croatia','Cyprus','Czech Republic',
-'Denmark','Estonia','Finland','France','Germany','Greece','Hungary','Ireland','Italy','Latvia','Lithuania',
-'Luxembourg','Malta','Netherlands','Poland','Portugal','Romania','Slovakia','Slovenia','Spain','Sweden','United Kingdom']
+eu=['Albania','Austria','Belgium','Bulgaria','Croatia','Cyprus','Czech Republic',
+'Denmark','Estonia','Finland','Former Yugoslav Republic of Macedonia','France','Germany','Greece','Hungary','Ireland','Italy','Latvia','Lithuania',
+'Luxembourg','Malta','Netherlands','Norway','Poland','Portugal','Russia','Romania','Slovakia','Slovenia','Spain','Sweden','Switzerland','United Kingdom']
 USA=[]
 Europe=[]
+Canada=[]
+Latin=[]
+Asia=[]
+Oceania=[]
+Africa=[]
 for i in range(len(robberies)):
     #aa=robberies[i]['Place']    
     aa=robberies[i]['Country']    
@@ -601,6 +606,16 @@ for i in range(len(robberies)):
         Europe.append(robberies[i]['Place'])       
     #elif aa=='MUSEUM':
         #robberies[i]        
+    elif aa=='Canada':
+        Canada.append(robberies[i]['Place'])   
+    elif aa=='Iran' or aa=='Armenia':
+        Asia.append(robberies[i]['Place'])   
+    elif aa=='New Zealand':
+        Oceania.append(robberies[i]['Place'])           
+    elif aa=='South Africa' or aa=='Egypt':
+        Africa.append(robberies[i]['Place'])           
+    else:
+        Latin.append(aa)   
 
 counter=collections.Counter(Europe)
 objec=counter.keys() 
